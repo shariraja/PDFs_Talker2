@@ -40,7 +40,57 @@ st.markdown("""
         box-shadow: -5px 0 30px rgba(12, 242, 179, 0.1);
     }
     
-    /* Logo Styling - Only ONE logo now */
+    /* Animated Border for Sidebar Cards */
+    .glass-card {
+        background: rgba(15, 15, 26, 0.6);
+        backdrop-filter: blur(10px);
+        border: 2px solid transparent;
+        border-radius: 20px;
+        padding: 20px;
+        margin: 15px 0;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+        animation: borderPulse 3s infinite;
+    }
+    
+    @keyframes borderPulse {
+        0%, 100% {
+            border-image: linear-gradient(45deg, #0CF2B3, #4BD9FF, #FF33AA, #0CF2B3) 1;
+            border-image-slice: 1;
+            box-shadow: 0 0 10px rgba(12, 242, 179, 0.3);
+        }
+        50% {
+            border-image: linear-gradient(225deg, #FF33AA, #4BD9FF, #0CF2B3, #FF33AA) 1;
+            border-image-slice: 1;
+            box-shadow: 0 0 30px rgba(255, 51, 170, 0.5);
+        }
+    }
+    
+    .glass-card::before {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -2px;
+        right: -2px;
+        bottom: -2px;
+        background: linear-gradient(45deg, #0CF2B3, #4BD9FF, #FF33AA, #0CF2B3);
+        border-radius: 20px;
+        z-index: -1;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .glass-card:hover::before {
+        opacity: 1;
+    }
+    
+    .glass-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 0 40px rgba(12, 242, 179, 0.6);
+    }
+    
+    /* Logo Styling - Animated Box */
     .logo-container {
         display: flex;
         align-items: center;
@@ -48,15 +98,30 @@ st.markdown("""
         gap: 15px;
         padding: 20px;
         margin-bottom: 30px;
-        border-bottom: 2px solid rgba(12, 242, 179, 0.3);
-        background: linear-gradient(135deg, rgba(12, 242, 179, 0.1), rgba(255, 51, 170, 0.1));
+        background: linear-gradient(135deg, rgba(12, 242, 179, 0.15), rgba(255, 51, 170, 0.15));
         border-radius: 15px;
-        animation: glowPulse 3s infinite;
+        animation: logoGlow 2s infinite, borderRotate 4s linear infinite;
+        position: relative;
+        overflow: hidden;
+        border: 2px solid transparent;
     }
     
-    @keyframes glowPulse {
-        0%, 100% { box-shadow: 0 0 10px rgba(12, 242, 179, 0.3); }
-        50% { box-shadow: 0 0 30px rgba(255, 51, 170, 0.5); }
+    @keyframes logoGlow {
+        0%, 100% { 
+            box-shadow: 0 0 20px rgba(12, 242, 179, 0.4);
+            border-image: linear-gradient(45deg, #0CF2B3, #FF33AA) 1;
+            border-image-slice: 1;
+        }
+        50% { 
+            box-shadow: 0 0 50px rgba(255, 51, 170, 0.6);
+            border-image: linear-gradient(225deg, #FF33AA, #0CF2B3) 1;
+            border-image-slice: 1;
+        }
+    }
+    
+    @keyframes borderRotate {
+        0% { border-image: linear-gradient(0deg, #0CF2B3, #FF33AA) 1; }
+        100% { border-image: linear-gradient(360deg, #0CF2B3, #FF33AA) 1; }
     }
     
     .logo-text {
@@ -69,21 +134,27 @@ st.markdown("""
         font-family: 'Orbitron', monospace;
         text-shadow: 0 0 20px rgba(12, 242, 179, 0.5);
         letter-spacing: 2px;
+        animation: textPulse 2s infinite;
+    }
+    
+    @keyframes textPulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.9; text-shadow: 0 0 30px #FF33AA; }
     }
     
     .logo-icon {
         font-size: 52px;
-        animation: pulse 2s infinite;
+        animation: iconSpin 3s infinite;
     }
     
-    @keyframes pulse {
+    @keyframes iconSpin {
         0%, 100% { 
+            transform: rotate(0deg);
             text-shadow: 0 0 10px #0CF2B3;
-            transform: scale(1);
         }
         50% { 
+            transform: rotate(5deg);
             text-shadow: 0 0 30px #FF33AA;
-            transform: scale(1.05);
         }
     }
     
@@ -100,29 +171,18 @@ st.markdown("""
         border-radius: 15px;
         box-shadow: 0 0 30px rgba(12, 242, 179, 0.2);
         transition: all 0.3s ease;
+        animation: headingGlow 3s infinite;
+    }
+    
+    @keyframes headingGlow {
+        0%, 100% { box-shadow: 0 0 20px rgba(12, 242, 179, 0.3); }
+        50% { box-shadow: 0 0 40px rgba(255, 51, 170, 0.5); }
     }
     
     .neon-heading:hover {
         transform: scale(1.02);
         box-shadow: 0 0 50px rgba(12, 242, 179, 0.5);
         border-color: #FF33AA;
-    }
-    
-    /* Glassmorphism Card */
-    .glass-card {
-        background: rgba(15, 15, 26, 0.6);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(12, 242, 179, 0.3);
-        border-radius: 20px;
-        padding: 20px;
-        margin: 15px 0;
-        transition: all 0.3s ease;
-    }
-    
-    .glass-card:hover {
-        border-color: #FF33AA;
-        box-shadow: 0 0 20px rgba(255, 51, 170, 0.2);
-        transform: translateY(-2px);
     }
     
     /* Sidebar text color */
@@ -146,6 +206,12 @@ st.markdown("""
     [data-testid="stSidebar"] .stAlert {
         background: rgba(12, 242, 179, 0.15);
         border-color: #0CF2B3;
+        animation: alertPulse 2s infinite;
+    }
+    
+    @keyframes alertPulse {
+        0%, 100% { border-color: #0CF2B3; }
+        50% { border-color: #FF33AA; }
     }
     
     [data-testid="stSidebar"] .stAlert p {
@@ -159,10 +225,16 @@ st.markdown("""
         border-radius: 15px;
         padding: 15px;
         margin: 10px 0;
-        animation: slideInRight 0.3s ease;
+        animation: slideInRight 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         color: #FFFFFF !important;
         font-family: 'Share Tech Mono', monospace;
         font-size: 16px;
+        transition: all 0.3s ease;
+    }
+    
+    .user-message:hover {
+        transform: translateX(5px);
+        border-left: 4px solid #FF33AA;
     }
     
     /* WHITE TEXT FOR CHAT - Assistant responses */
@@ -172,36 +244,22 @@ st.markdown("""
         border-radius: 15px;
         padding: 15px;
         margin: 10px 0;
-        animation: slideInLeft 0.3s ease;
+        animation: slideInLeft 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
         color: #FFFFFF !important;
         font-family: 'Share Tech Mono', monospace;
         font-size: 16px;
+        transition: all 0.3s ease;
     }
     
-    /* Chat input text color - White */
-    [data-testid="stChatInput"] textarea,
-    [data-testid="stChatInput"] input {
-        color: #FFFFFF !important;
-        font-family: 'Share Tech Mono', monospace !important;
-        font-size: 16px !important;
-    }
-    
-    /* Chat input placeholder */
-    [data-testid="stChatInput"] textarea::placeholder,
-    [data-testid="stChatInput"] input::placeholder {
-        color: rgba(255, 255, 255, 0.5) !important;
-    }
-    
-    /* Any text in chat messages */
-    [data-testid="stChatMessage"] p,
-    [data-testid="stChatMessage"] div {
-        color: #FFFFFF !important;
+    .assistant-message:hover {
+        transform: translateX(-5px);
+        border-right: 4px solid #0CF2B3;
     }
     
     @keyframes slideInRight {
         from {
             opacity: 0;
-            transform: translateX(50px);
+            transform: translateX(100px);
         }
         to {
             opacity: 1;
@@ -212,12 +270,30 @@ st.markdown("""
     @keyframes slideInLeft {
         from {
             opacity: 0;
-            transform: translateX(-50px);
+            transform: translateX(-100px);
         }
         to {
             opacity: 1;
             transform: translateX(0);
         }
+    }
+    
+    /* Chat input text color */
+    [data-testid="stChatInput"] textarea,
+    [data-testid="stChatInput"] input {
+        color: #FFFFFF !important;
+        font-family: 'Share Tech Mono', monospace !important;
+        font-size: 16px !important;
+    }
+    
+    [data-testid="stChatInput"] textarea::placeholder,
+    [data-testid="stChatInput"] input::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
+    }
+    
+    [data-testid="stChatMessage"] p,
+    [data-testid="stChatMessage"] div {
+        color: #FFFFFF !important;
     }
     
     /* Streaming cursor */
@@ -235,13 +311,25 @@ st.markdown("""
         51%, 100% { opacity: 0; }
     }
     
-    /* Neon Border Expandable */
+    /* Neon Border Expandable with animation */
     .streamlit-expanderHeader {
         background: rgba(12, 242, 179, 0.1);
         border: 1px solid #0CF2B3;
         border-radius: 10px;
         font-family: 'Orbitron', monospace;
         color: #0CF2B3;
+        transition: all 0.3s ease;
+        animation: expanderPulse 2s infinite;
+    }
+    
+    @keyframes expanderPulse {
+        0%, 100% { border-color: #0CF2B3; }
+        50% { border-color: #FF33AA; }
+    }
+    
+    .streamlit-expanderHeader:hover {
+        background: rgba(12, 242, 179, 0.2);
+        transform: scale(1.02);
     }
     
     .streamlit-expanderContent {
@@ -255,16 +343,29 @@ st.markdown("""
         border: 2px solid rgba(12, 242, 179, 0.5);
         border-radius: 15px;
         transition: all 0.3s ease;
+        animation: inputGlow 2s infinite;
+    }
+    
+    @keyframes inputGlow {
+        0%, 100% { border-color: rgba(12, 242, 179, 0.5); }
+        50% { border-color: rgba(255, 51, 170, 0.5); }
     }
     
     [data-testid="stChatInput"] > div:focus-within {
         border-color: #FF33AA;
-        box-shadow: 0 0 20px rgba(255, 51, 170, 0.3);
+        box-shadow: 0 0 30px rgba(255, 51, 170, 0.5);
+        transform: scale(1.01);
     }
     
     /* Spinner */
     .stSpinner > div {
         border-color: #0CF2B3 transparent #FF33AA transparent;
+        animation: spinnerRotate 1s linear infinite;
+    }
+    
+    @keyframes spinnerRotate {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
     
     /* Scrollbar */
@@ -280,6 +381,12 @@ st.markdown("""
     ::-webkit-scrollbar-thumb {
         background: linear-gradient(135deg, #0CF2B3, #FF33AA);
         border-radius: 4px;
+        animation: scrollbarPulse 2s infinite;
+    }
+    
+    @keyframes scrollbarPulse {
+        0%, 100% { background: linear-gradient(135deg, #0CF2B3, #FF33AA); }
+        50% { background: linear-gradient(135deg, #FF33AA, #0CF2B3); }
     }
     
     ::-webkit-scrollbar-thumb:hover {
@@ -292,8 +399,39 @@ st.markdown("""
         border: 1px solid #0CF2B3;
         border-radius: 10px;
         font-family: 'Share Tech Mono', monospace;
+        animation: alertGlow 2s infinite;
+    }
+    
+    @keyframes alertGlow {
+        0%, 100% { border-color: #0CF2B3; box-shadow: 0 0 10px rgba(12, 242, 179, 0.3); }
+        50% { border-color: #FF33AA; box-shadow: 0 0 20px rgba(255, 51, 170, 0.5); }
+    }
+    
+    /* Auto-scroll container */
+    .main > div {
+        scroll-behavior: smooth;
     }
 </style>
+
+<script>
+// Auto-scroll to bottom of chat
+function scrollToBottom() {
+    const chatContainer = document.querySelector('.main');
+    if (chatContainer) {
+        chatContainer.scrollTop = chatContainer.scrollHeight;
+    }
+}
+
+// Scroll on every message
+const observer = new MutationObserver(function(mutations) {
+    scrollToBottom();
+});
+
+observer.observe(document.querySelector('.main'), { 
+    childList: true, 
+    subtree: true 
+});
+</script>
 """, unsafe_allow_html=True)
 
 # ==================== SINGLE LOGO SECTION (Animated Box) ====================
@@ -419,7 +557,7 @@ def stream_response(answer):
 st.markdown('<h1 class="neon-heading">📚 NEURAL PDF INTERFACE</h1>', unsafe_allow_html=True)
 st.markdown('<p style="text-align: center; color: #0CF2B3; font-family: monospace;">⚡ POWERED BY GROQ LLaMA 3.3 70B | ULTRA-FAST STREAMING ⚡</p>', unsafe_allow_html=True)
 
-# Sidebar with Glassmorphism
+# Sidebar with Glassmorphism and Animated Borders
 with st.sidebar:
     st.markdown('<div class="glass-card">', unsafe_allow_html=True)
     st.markdown('<h3 style="color: #0CF2B3; text-align: center;">📄 UPLOAD INTERFACE</h3>', unsafe_allow_html=True)
@@ -493,31 +631,64 @@ with st.sidebar:
     </div>
     """, unsafe_allow_html=True)
 
-# ==================== CHAT INTERFACE ====================
-if not st.session_state.chain:
-    st.markdown("""
-    <div class="glass-card" style="text-align: center; margin: 50px;">
-        <h3 style="color: #0CF2B3;">⚡ NEURAL INTERFACE READY</h3>
-        <p style="color: #4BD9FF;">UPLOAD PDF DOCUMENTS TO INITIATE NEURAL PROCESSING</p>
-        <p style="font-size: 12px; color: #FF33AA;">[ SIDE BAR CONTROLS ACTIVE ]</p>
-    </div>
-    """, unsafe_allow_html=True)
-    st.stop()
+# ==================== CHAT INTERFACE with Auto-Scroll ====================
+# Create a container for chat messages with auto-scroll
+chat_container = st.container()
 
-# Display Chat History with White Text
-for msg in st.session_state.messages:
-    if msg["role"] == "user":
-        with st.chat_message("user"):
-            st.markdown(f'<div class="user-message">{msg["content"]}</div>', unsafe_allow_html=True)
+with chat_container:
+    if not st.session_state.chain:
+        st.markdown("""
+        <div class="glass-card" style="text-align: center; margin: 50px;">
+            <h3 style="color: #0CF2B3;">⚡ NEURAL INTERFACE READY</h3>
+            <p style="color: #4BD9FF;">UPLOAD PDF DOCUMENTS TO INITIATE NEURAL PROCESSING</p>
+            <p style="font-size: 12px; color: #FF33AA;">[ SIDE BAR CONTROLS ACTIVE ]</p>
+        </div>
+        """, unsafe_allow_html=True)
     else:
-        with st.chat_message("assistant"):
-            st.markdown(f'<div class="assistant-message">{msg["content"]}</div>', unsafe_allow_html=True)
-            if msg.get("sources"):
-                with st.expander("📖 SOURCE DOCUMENTS"):
-                    for src in msg["sources"]:
-                        st.caption(f"📄 {src}")
+        # Display Chat History
+        for msg in st.session_state.messages:
+            if msg["role"] == "user":
+                with st.chat_message("user"):
+                    st.markdown(f'<div class="user-message">{msg["content"]}</div>', unsafe_allow_html=True)
+            else:
+                with st.chat_message("assistant"):
+                    st.markdown(f'<div class="assistant-message">{msg["content"]}</div>', unsafe_allow_html=True)
+                    if msg.get("sources"):
+                        with st.expander("📖 SOURCE DOCUMENTS"):
+                            for src in msg["sources"]:
+                                st.caption(f"📄 {src}")
 
-# Chat Input with Streaming
+# Auto-scroll JavaScript
+st.markdown("""
+<script>
+function scrollToBottom() {
+    const mainElement = document.querySelector('.main');
+    if (mainElement) {
+        mainElement.scrollTo({
+            top: mainElement.scrollHeight,
+            behavior: 'smooth'
+        });
+    }
+}
+
+// Observe for new messages
+const observer = new MutationObserver(function(mutations) {
+    scrollToBottom();
+});
+
+const mainElement = document.querySelector('.main');
+if (mainElement) {
+    observer.observe(mainElement, { 
+        childList: true, 
+        subtree: true 
+    });
+    // Initial scroll
+    scrollToBottom();
+}
+</script>
+""", unsafe_allow_html=True)
+
+# Chat Input
 if user_input := st.chat_input("⚡ ENTER YOUR QUERY... (URDU | ENGLISH)"):
     with st.chat_message("user"):
         st.markdown(f'<div class="user-message">{user_input}</div>', unsafe_allow_html=True)
