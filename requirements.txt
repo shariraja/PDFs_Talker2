@@ -5,5 +5,4 @@ langchain-huggingface==0.1.2
 chromadb==0.5.23
 sentence-transformers==3.2.1
 pymupdf==1.24.13
-tiktoken==0.8.0
 streamlit==1.40.2
