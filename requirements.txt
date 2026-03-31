@@ -8,3 +8,5 @@ pymupdf==1.24.13
 streamlit==1.40.2
 pydantic==2.12.5
 pydantic-settings==2.13.1
+pydantic-core==2.41.5
+typing-extensions>=4.15.0
