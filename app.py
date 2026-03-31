@@ -10,8 +10,6 @@ from langchain_groq import ChatGroq
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferWindowMemory
 from langchain.prompts import ChatPromptTemplate, SystemMessagePromptTemplate, HumanMessagePromptTemplate
-from langchain.callbacks import StreamingStdOutCallbackHandler
-from langchain.schema import BaseMessage, HumanMessage, AIMessage
 import time
 
 st.set_page_config(page_title="PDF Talker 2.0", page_icon="📚", layout="wide")
@@ -34,14 +32,13 @@ if "memory" not in st.session_state:
 @st.cache_resource
 def get_embeddings():
     return HuggingFaceEmbeddings(
-        model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",  # Better for Urdu
+        model_name="sentence-transformers/paraphrase-multilingual-MiniLM-L12-v2",
         model_kwargs={"device": "cpu"},
         encode_kwargs={"normalize_embeddings": True},
     )
 
 # ─── Enhanced Chain with Streaming and Better Model ──────────────
 def build_chain(vector_store):
-    # Professional-level system prompt with better Urdu/English handling
     SYSTEM_PROMPT = """You are a highly intelligent, professional PDF assistant with expert-level understanding.
 
 **CRITICAL RULES:**
@@ -66,32 +63,28 @@ Context from PDF:
         HumanMessagePromptTemplate.from_template("{question}"),
     ])
 
-    # Enhanced memory with more context
     memory = ConversationBufferWindowMemory(
         memory_key="chat_history",
         return_messages=True,
         output_key="answer",
-        k=8,  # Increased from 5 for better continuity
+        k=8,
     )
     st.session_state.memory = memory
 
-    # Better Groq model with optimized settings
+    # CORRECT Groq model names
     llm = ChatGroq(
-        model="llama-3.3-70b-specdec",  # Most powerful Groq model
-        temperature=0.25,  # Balanced between creativity and accuracy
-        max_tokens=4096,   # Longer responses
+        model="llama-3.3-70b-versatile",  # Correct model name
+        temperature=0.25,
+        max_tokens=4096,
         api_key=GROQ_API_KEY,
-        streaming=True,    # Enable streaming
-        callbacks=[StreamingStdOutCallbackHandler()],
     )
 
-    # Enhanced retriever with more context
     retriever = vector_store.as_retriever(
-        search_type="mmr",  # Maximum Marginal Relevance for diverse results
+        search_type="mmr",
         search_kwargs={
-            "k": 8,          # More documents
-            "fetch_k": 25,   # Fetch more for better diversity
-            "lambda_mult": 0.5,  # Balance between relevance and diversity
+            "k": 8,
+            "fetch_k": 25,
+            "lambda_mult": 0.5,
         },
     )
 
@@ -106,12 +99,11 @@ Context from PDF:
 
 # ─── Enhanced Summary Generation ─────────────────────────────────
 def generate_summary(vector_store):
-    # Get more comprehensive context
     docs = vector_store.similarity_search("main topics key points overview summary", k=5)
     context = "\n\n".join([d.page_content for d in docs])
     
     llm = ChatGroq(
-        model="llama-3.3-70b-specdec", 
+        model="llama-3.3-70b-versatile",  # Correct model name
         temperature=0.2, 
         api_key=GROQ_API_KEY
     )
@@ -131,10 +123,11 @@ def stream_response(answer):
     """Stream the response character by character"""
     placeholder = st.empty()
     full_response = ""
-    for chunk in answer.split():
-        full_response += chunk + " "
+    words = answer.split()
+    for i, word in enumerate(words):
+        full_response += word + " "
         placeholder.markdown(full_response + "▌")
-        time.sleep(0.02)  # Smooth streaming effect
+        time.sleep(0.02)
     placeholder.markdown(full_response)
     return full_response
 
@@ -160,7 +153,6 @@ with st.sidebar:
                     all_pages.extend(pages)
                     os.unlink(tmp_path)
 
-                # Better text splitting for Urdu/English mix
                 splitter = RecursiveCharacterTextSplitter(
                     chunk_size=1200, 
                     chunk_overlap=250,
@@ -207,7 +199,7 @@ with st.sidebar:
     st.caption("• Real-time streaming responses")
     st.caption("• Professional Urdu/English support")
     st.caption("• Better context continuity")
-    st.caption("• More powerful LLaMA 3.3 70B model")
+    st.caption("• Powerful LLaMA 3.3 70B model")
 
 # ─── Chat Area with Streaming ─────────────────────────────────────
 if not st.session_state.chain:
@@ -239,8 +231,9 @@ if user_input := st.chat_input("اپنا سوال پوچھیں... (Urdu ya Engli
             # Stream the response
             response_placeholder = st.empty()
             full_response = ""
-            for chunk in answer.split():
-                full_response += chunk + " "
+            words = answer.split()
+            for word in words:
+                full_response += word + " "
                 response_placeholder.markdown(full_response + "▌")
                 time.sleep(0.015)
             response_placeholder.markdown(full_response)
