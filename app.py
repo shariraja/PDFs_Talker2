@@ -5,7 +5,7 @@ from datetime import datetime
 from langchain_community.document_loaders import PyMuPDFLoader
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from langchain_huggingface import HuggingFaceEmbeddings
-from langchain_community.vectorstores import Chroma
+from langchain_community.vectorstores import FAISS  # Changed from Chroma
 from langchain_groq import ChatGroq
 from langchain.chains import ConversationalRetrievalChain
 from langchain.memory import ConversationBufferWindowMemory
@@ -112,10 +112,10 @@ with st.sidebar:
                 )
                 chunks = splitter.split_documents(all_pages)
 
-                vector_store = Chroma.from_documents(
+                # Changed: Using FAISS instead of Chroma
+                vector_store = FAISS.from_documents(
                     documents=chunks,
-                    embedding=get_embeddings(),
-                    collection_name="pdf_talker",
+                    embedding=get_embeddings()
                 )
 
                 st.session_state.chain = build_chain(vector_store)
