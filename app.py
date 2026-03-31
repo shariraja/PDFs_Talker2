@@ -109,6 +109,36 @@ st.markdown("""
         transform: translateY(-2px);
     }
     
+    /* FIX 1: Sidebar text color - bright neon cyan for all text */
+    [data-testid="stSidebar"] * {
+        color: #0CF2B3 !important;
+    }
+    
+    /* Make headers more visible in sidebar */
+    [data-testid="stSidebar"] h1, 
+    [data-testid="stSidebar"] h2, 
+    [data-testid="stSidebar"] h3, 
+    [data-testid="stSidebar"] h4 {
+        color: #FF33AA !important;
+        text-shadow: 0 0 5px rgba(255, 51, 170, 0.5);
+    }
+    
+    /* Make file uploader text visible */
+    [data-testid="stSidebar"] [data-testid="stFileUploader"] label {
+        color: #4BD9FF !important;
+        font-weight: bold;
+    }
+    
+    /* Make warning/info/success text visible in sidebar */
+    [data-testid="stSidebar"] .stAlert {
+        background: rgba(12, 242, 179, 0.15);
+        border-color: #0CF2B3;
+    }
+    
+    [data-testid="stSidebar"] .stAlert p {
+        color: #4BD9FF !important;
+    }
+    
     /* Neon Button */
     .stButton > button {
         background: linear-gradient(135deg, rgba(12, 242, 179, 0.2), rgba(255, 51, 170, 0.2));
@@ -264,7 +294,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ==================== LOGO SECTION ====================
+# ==================== LOGO SECTION (FIX 2: Added S.S_AI logo on top) ====================
 st.markdown("""
 <div class="logo-container">
     <div class="logo-icon">⚡</div>
