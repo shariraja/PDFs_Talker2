@@ -109,7 +109,7 @@ st.markdown("""
         transform: translateY(-2px);
     }
     
-    /* FIX 1: Sidebar text color - bright neon cyan for all text */
+    /* Sidebar text color - bright neon cyan for all text */
     [data-testid="stSidebar"] * {
         color: #0CF2B3 !important;
     }
@@ -139,47 +139,21 @@ st.markdown("""
         color: #4BD9FF !important;
     }
     
-    /* Neon Button */
-    .stButton > button {
-        background: linear-gradient(135deg, rgba(12, 242, 179, 0.2), rgba(255, 51, 170, 0.2));
-        border: 2px solid #0CF2B3;
-        color: #0CF2B3;
-        font-weight: bold;
-        font-family: 'Orbitron', monospace;
-        transition: all 0.3s ease;
-        border-radius: 10px;
+    /* FIX: Chat input text color - bright neon cyan */
+    [data-testid="stChatInput"] textarea,
+    [data-testid="stChatInput"] input {
+        color: #0CF2B3 !important;
+        font-family: 'Share Tech Mono', monospace !important;
+        font-size: 16px !important;
     }
     
-    .stButton > button:hover {
-        transform: scale(1.05);
-        box-shadow: 0 0 20px rgba(12, 242, 179, 0.6);
-        border-color: #FF33AA;
-        color: #FF33AA;
+    /* FIX: Chat input placeholder color */
+    [data-testid="stChatInput"] textarea::placeholder,
+    [data-testid="stChatInput"] input::placeholder {
+        color: rgba(12, 242, 179, 0.5) !important;
     }
     
-    /* Neon File Uploader */
-    [data-testid="stFileUploader"] {
-        border: 2px dashed rgba(12, 242, 179, 0.5);
-        border-radius: 15px;
-        padding: 20px;
-        transition: all 0.3s ease;
-    }
-    
-    [data-testid="stFileUploader"]:hover {
-        border-color: #FF33AA;
-        box-shadow: 0 0 20px rgba(255, 51, 170, 0.3);
-    }
-    
-    /* Chat Bubbles */
-    .user-message {
-        background: linear-gradient(135deg, rgba(12, 242, 179, 0.15), rgba(75, 217, 255, 0.1));
-        border-left: 4px solid #0CF2B3;
-        border-radius: 15px;
-        padding: 15px;
-        margin: 10px 0;
-        animation: slideInRight 0.3s ease;
-    }
-    
+    /* FIX: Assistant response text color */
     .assistant-message {
         background: linear-gradient(135deg, rgba(255, 51, 170, 0.15), rgba(12, 242, 179, 0.1));
         border-right: 4px solid #FF33AA;
@@ -187,6 +161,36 @@ st.markdown("""
         padding: 15px;
         margin: 10px 0;
         animation: slideInLeft 0.3s ease;
+        color: #0CF2B3 !important;
+        font-family: 'Share Tech Mono', monospace;
+    }
+    
+    /* FIX: User message text color */
+    .user-message {
+        background: linear-gradient(135deg, rgba(12, 242, 179, 0.15), rgba(75, 217, 255, 0.1));
+        border-left: 4px solid #0CF2B3;
+        border-radius: 15px;
+        padding: 15px;
+        margin: 10px 0;
+        animation: slideInRight 0.3s ease;
+        color: #4BD9FF !important;
+        font-family: 'Share Tech Mono', monospace;
+    }
+    
+    /* FIX: Any text in chat messages */
+    [data-testid="stChatMessage"] p,
+    [data-testid="stChatMessage"] div {
+        color: #0CF2B3 !important;
+    }
+    
+    /* FIX: Streaming text during generation */
+    .assistant-message .streaming-cursor {
+        display: inline-block;
+        width: 3px;
+        height: 20px;
+        background: #0CF2B3;
+        animation: blink 1s infinite;
+        margin-left: 5px;
     }
     
     @keyframes slideInRight {
@@ -294,7 +298,7 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ==================== LOGO SECTION (FIX 2: Added S.S_AI logo on top) ====================
+# ==================== LOGO SECTION ====================
 st.markdown("""
 <div class="logo-container">
     <div class="logo-icon">⚡</div>
