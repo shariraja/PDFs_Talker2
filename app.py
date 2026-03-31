@@ -40,18 +40,27 @@ st.markdown("""
         box-shadow: -5px 0 30px rgba(12, 242, 179, 0.1);
     }
     
-    /* Logo Styling */
+    /* Logo Styling - Only ONE logo now */
     .logo-container {
         display: flex;
         align-items: center;
+        justify-content: center;
         gap: 15px;
         padding: 20px;
         margin-bottom: 30px;
         border-bottom: 2px solid rgba(12, 242, 179, 0.3);
+        background: linear-gradient(135deg, rgba(12, 242, 179, 0.1), rgba(255, 51, 170, 0.1));
+        border-radius: 15px;
+        animation: glowPulse 3s infinite;
+    }
+    
+    @keyframes glowPulse {
+        0%, 100% { box-shadow: 0 0 10px rgba(12, 242, 179, 0.3); }
+        50% { box-shadow: 0 0 30px rgba(255, 51, 170, 0.5); }
     }
     
     .logo-text {
-        font-size: 32px;
+        font-size: 36px;
         font-weight: 900;
         background: linear-gradient(135deg, #0CF2B3, #4BD9FF, #FF33AA);
         -webkit-background-clip: text;
@@ -59,16 +68,23 @@ st.markdown("""
         background-clip: text;
         font-family: 'Orbitron', monospace;
         text-shadow: 0 0 20px rgba(12, 242, 179, 0.5);
+        letter-spacing: 2px;
     }
     
     .logo-icon {
-        font-size: 48px;
+        font-size: 52px;
         animation: pulse 2s infinite;
     }
     
     @keyframes pulse {
-        0%, 100% { text-shadow: 0 0 10px #0CF2B3; }
-        50% { text-shadow: 0 0 30px #FF33AA; }
+        0%, 100% { 
+            text-shadow: 0 0 10px #0CF2B3;
+            transform: scale(1);
+        }
+        50% { 
+            text-shadow: 0 0 30px #FF33AA;
+            transform: scale(1.05);
+        }
     }
     
     /* Neon Gradient Headings */
@@ -109,12 +125,11 @@ st.markdown("""
         transform: translateY(-2px);
     }
     
-    /* Sidebar text color - bright neon cyan for all text */
+    /* Sidebar text color */
     [data-testid="stSidebar"] * {
         color: #0CF2B3 !important;
     }
     
-    /* Make headers more visible in sidebar */
     [data-testid="stSidebar"] h1, 
     [data-testid="stSidebar"] h2, 
     [data-testid="stSidebar"] h3, 
@@ -123,13 +138,11 @@ st.markdown("""
         text-shadow: 0 0 5px rgba(255, 51, 170, 0.5);
     }
     
-    /* Make file uploader text visible */
     [data-testid="stSidebar"] [data-testid="stFileUploader"] label {
         color: #4BD9FF !important;
         font-weight: bold;
     }
     
-    /* Make warning/info/success text visible in sidebar */
     [data-testid="stSidebar"] .stAlert {
         background: rgba(12, 242, 179, 0.15);
         border-color: #0CF2B3;
@@ -139,33 +152,7 @@ st.markdown("""
         color: #4BD9FF !important;
     }
     
-    /* FIX: Chat input text color - bright neon cyan */
-    [data-testid="stChatInput"] textarea,
-    [data-testid="stChatInput"] input {
-        color: #0CF2B3 !important;
-        font-family: 'Share Tech Mono', monospace !important;
-        font-size: 16px !important;
-    }
-    
-    /* FIX: Chat input placeholder color */
-    [data-testid="stChatInput"] textarea::placeholder,
-    [data-testid="stChatInput"] input::placeholder {
-        color: rgba(12, 242, 179, 0.5) !important;
-    }
-    
-    /* FIX: Assistant response text color */
-    .assistant-message {
-        background: linear-gradient(135deg, rgba(255, 51, 170, 0.15), rgba(12, 242, 179, 0.1));
-        border-right: 4px solid #FF33AA;
-        border-radius: 15px;
-        padding: 15px;
-        margin: 10px 0;
-        animation: slideInLeft 0.3s ease;
-        color: #0CF2B3 !important;
-        font-family: 'Share Tech Mono', monospace;
-    }
-    
-    /* FIX: User message text color */
+    /* WHITE TEXT FOR CHAT - User messages */
     .user-message {
         background: linear-gradient(135deg, rgba(12, 242, 179, 0.15), rgba(75, 217, 255, 0.1));
         border-left: 4px solid #0CF2B3;
@@ -173,24 +160,42 @@ st.markdown("""
         padding: 15px;
         margin: 10px 0;
         animation: slideInRight 0.3s ease;
-        color: #4BD9FF !important;
+        color: #FFFFFF !important;
         font-family: 'Share Tech Mono', monospace;
+        font-size: 16px;
     }
     
-    /* FIX: Any text in chat messages */
+    /* WHITE TEXT FOR CHAT - Assistant responses */
+    .assistant-message {
+        background: linear-gradient(135deg, rgba(255, 51, 170, 0.15), rgba(12, 242, 179, 0.1));
+        border-right: 4px solid #FF33AA;
+        border-radius: 15px;
+        padding: 15px;
+        margin: 10px 0;
+        animation: slideInLeft 0.3s ease;
+        color: #FFFFFF !important;
+        font-family: 'Share Tech Mono', monospace;
+        font-size: 16px;
+    }
+    
+    /* Chat input text color - White */
+    [data-testid="stChatInput"] textarea,
+    [data-testid="stChatInput"] input {
+        color: #FFFFFF !important;
+        font-family: 'Share Tech Mono', monospace !important;
+        font-size: 16px !important;
+    }
+    
+    /* Chat input placeholder */
+    [data-testid="stChatInput"] textarea::placeholder,
+    [data-testid="stChatInput"] input::placeholder {
+        color: rgba(255, 255, 255, 0.5) !important;
+    }
+    
+    /* Any text in chat messages */
     [data-testid="stChatMessage"] p,
     [data-testid="stChatMessage"] div {
-        color: #0CF2B3 !important;
-    }
-    
-    /* FIX: Streaming text during generation */
-    .assistant-message .streaming-cursor {
-        display: inline-block;
-        width: 3px;
-        height: 20px;
-        background: #0CF2B3;
-        animation: blink 1s infinite;
-        margin-left: 5px;
+        color: #FFFFFF !important;
     }
     
     @keyframes slideInRight {
@@ -215,19 +220,12 @@ st.markdown("""
         }
     }
     
-    /* Glowing Text */
-    .glow-text {
-        color: #0CF2B3;
-        text-shadow: 0 0 10px rgba(12, 242, 179, 0.5);
-        font-family: 'Share Tech Mono', monospace;
-    }
-    
-    /* Neon Cursor for Streaming */
+    /* Streaming cursor */
     .streaming-cursor {
         display: inline-block;
         width: 3px;
         height: 20px;
-        background: #0CF2B3;
+        background: #FFFFFF;
         animation: blink 1s infinite;
         margin-left: 5px;
     }
@@ -298,12 +296,12 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-# ==================== LOGO SECTION ====================
+# ==================== SINGLE LOGO SECTION (Animated Box) ====================
 st.markdown("""
 <div class="logo-container">
     <div class="logo-icon">⚡</div>
     <div class="logo-text">S.S_AI</div>
-    <div style="margin-left: auto; font-size: 12px; color: #0CF2B3;">NEURAL PDF ASSISTANT v2.0</div>
+    <div style="font-size: 12px; color: #0CF2B3; margin-left: 10px;">NEURAL PDF ASSISTANT v2.0</div>
 </div>
 """, unsafe_allow_html=True)
 
@@ -506,7 +504,7 @@ if not st.session_state.chain:
     """, unsafe_allow_html=True)
     st.stop()
 
-# Display Chat History with Custom Styling
+# Display Chat History with White Text
 for msg in st.session_state.messages:
     if msg["role"] == "user":
         with st.chat_message("user"):
